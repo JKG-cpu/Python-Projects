@@ -1,0 +1,107 @@
+📚 Book Tracker & Reading Progress Visualizer
+
+🔧 Project Summary:
+Build a reading tracker app where users can:
+- Log books they're reading
+- Track daily reading progress (pages or %)
+- Estimate finish dates
+- See visual progress over time
+
+🧩 Features Breakdown
+
+✅ Core Features:
+1. Add a New Book
+   - Title, Author, Total Pages
+   - Start date
+   - Optional: Target finish date
+
+2. Log Reading Sessions
+   - Date
+   - Pages read
+   - Optional: Notes
+
+3. Progress Overview
+   - Pages read vs. total
+   - Estimated finish date based on reading speed
+   - Reading pace stats (pages/day)
+
+4. Visual Progress Chart
+   - X-axis: Dates
+   - Y-axis: Cumulative pages read
+   - Optional: Ideal pace line
+
+5. Persistent Data
+   - Save to `books.json` or `books.csv`
+   - Load on startup
+
+🖥️ Interface Options
+
+CLI Version:
+- Menu with options:
+  [1] Add Book
+  [2] Log Reading
+  [3] View Progress
+  [4] Generate Chart
+
+GUI Version (Optional):
+- Use Tkinter or PySimpleGUI
+- Main window: list of books + progress bars
+- Log sessions + view charts with buttons
+
+📦 File Structure Example (JSON)
+
+{
+  "books": [
+    {
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "total_pages": 280,
+      "start_date": "2025-09-01",
+      "target_finish_date": "2025-09-30",
+      "logs": [
+        {"date": "2025-09-01", "pages_read": 15},
+        {"date": "2025-09-03", "pages_read": 20}
+      ]
+    }
+  ]
+}
+
+📊 Charting with matplotlib
+
+import matplotlib.pyplot as plt
+from datetime import datetime
+
+dates = ["2025-09-01", "2025-09-03", "2025-09-05"]
+pages = [15, 35, 50]
+dates = [datetime.strptime(d, "%Y-%m-%d") for d in dates]
+
+plt.plot(dates, pages, marker='o', label="Your Progress")
+plt.xlabel("Date")
+plt.ylabel("Pages Read")
+plt.title("Reading Progress")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+🧠 Stretch Features (Advanced)
+- Track multiple books at once
+- Notify user if they fall behind schedule
+- Export reading logs as CSV
+- Track streaks (e.g., “5-day reading streak!”)
+- Add personal notes or reviews per session
+
+🧪 Example CLI Commands
+
+Welcome to ReadTracker!
+
+[1] Add new book
+[2] Log pages read
+[3] View progress
+[4] View chart
+[5] Save & exit
+
+> 1
+Enter book title: Deep Work
+Total pages: 280
+Start date (YYYY-MM-DD): 2025-09-10
+Target finish date: 2025-10-10
