@@ -1,0 +1,13 @@
+1. Start building the app
+   - Allow the user to save book titles
+   - Use commands like -add --title "Book" etc
+
+2. Allow logs for reading
+   - Date read
+   - Pages read -> Average how many days away from goal
+
+3. Add Progress for each book
+   - A dict. for each book
+       - Pages read
+       - Estimated Finish Data
+       - Include Notes
