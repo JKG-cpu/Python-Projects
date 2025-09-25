@@ -31,7 +31,7 @@ class DataLoader:
 
     def save_data(self, data):
         with open(self.file_path, "w") as f:
-            json.dump(data, f)
+            json.dump(data, f, indent = 2)
 
 class InputParser:
     def parse_command(self, tokens) -> tuple:
@@ -61,6 +61,7 @@ class InputParser:
         marked_tokens = []
 
         for token in fixed_input:
+            # Base commands
             if token.startswith('-a'):
                 marked_tokens.append((token, 'add'))
 
@@ -70,20 +71,24 @@ class InputParser:
             elif token.startswith("-v"):
                 marked_tokens.append((token, "view"))
 
+            elif token.startswith("-q"):
+                marked_tokens.append((token, 'quit'))
+
+            # Others
             elif token.startswith('"') or token.startswith("'"):
                 marked_tokens.append((token, 'value'))
             
-            elif token.startswith("-q"):
-                marked_tokens.append((token, 'quit'))
-            
+            elif token.startswith("-"):
+                marked_tokens.append((token, "flag"))
+
             else:
                 marked_tokens.append((token, 'invalid'))
 
         return (fixed_input, marked_tokens)
 
-    def command_input(self):
+    def command_input(self, message: str = "Enter a command or type -help for help"):
         while True:
-            raw_input = mPrinter.inputTypewriter("Enter a command or type -help for help")
+            raw_input = mPrinter.inputTypewriter(message)
             fixed_input, markdowns = self.parse_command(raw_input.strip().split())
 
             valid_command = True

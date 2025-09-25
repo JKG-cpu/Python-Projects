@@ -4,22 +4,46 @@ from src.tasks import *
 class Main:
     def __init__(self):
         # Class functions
-        self.taskManager = Manager(join("src", "database", "tasks.json"))
+        self.bookManager = BookManager(join("src", "database", "tasks.json"))
         self.inputParser = InputParser()
 
-    # CMD Line functions
+    # CMD Line Functions
     def help(self):
         # Print all the commands for base out
         # Allow user to view "details" on a command
         pass
 
-    def add_task(self):
-        # Have the user add tasks
-        pass
+    def add_book(self):
+        run = True
+        while run:
+            _, markdowns = self.inputParser.command_input(
+                "Enter in book details"
+            )
+            markdowns = iter(markdowns)
+            data = {}
 
-    def view_tasks(self):
-        # Have the user view tasks
-        pass
+            for item in markdowns:
+                value, key = item
+                if key == "flag":
+                    value = value.strip("-")
+                    next_item = next(markdowns, None)
+                    if next_item:
+                        data[value] = next_item[0]
+            
+            if (not data) or ("name" not in list(data.keys())):
+                mPrinter.typewriter("Type -help for help on the book addition command.")
+
+            else:
+                self.bookManager.create_new_entry(
+                    name = data["name"],
+                    pages = data["pages"] if "pages" in list(data.keys()) else None,
+                    goal = data["goal"] if "goal" in list(data.keys()) else None
+                )
+                run = False
+
+    def view_books(self):
+        # TODO: Add a view_books method to the book manager
+        self.bookManager.view_books()
 
     # Main Loop
     def main(self):
@@ -42,11 +66,11 @@ class Main:
                 for _, ttype in markdowns:
                     # Check if add task
                     if ttype == "add":
-                        self.add_task()
+                        self.add_book()
 
                     # Check if view task
                     elif ttype == "view":
-                        self.view_tasks()
+                        self.view_books()
 
                     # Check if -help
                     elif ttype == "help":
