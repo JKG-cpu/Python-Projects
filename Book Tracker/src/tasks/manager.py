@@ -9,11 +9,12 @@ class BookManager:
 
         self.books_per_page = 10
 
-    def create_new_entry(self, name: str, pages: str | int = None, goal: str = None):
+    def create_new_entry(self, name: str, pages: str | int = None, goal: str = None, pages_read = None):
         new_book = {
             "Book Name": name,
             "Page Amount": pages,
-            "Finish Date": goal
+            "Finish Date": goal,
+            "Pages Read": pages_read
         }
         self.data.append(new_book)
         self.task_loader.save_data(data = self.data)
@@ -21,6 +22,64 @@ class BookManager:
     def remove_book(self, index):
         self.data.pop(index)
         self.task_loader.save_data(data = self.data)
+
+    def book_details(self, book_data):
+        def display_data():
+            pPrinter.typewriter(f"Book Name: {book_data["Book Name"]}")
+            pPrinter.typewriter(f"    - Pages: {book_data["Page Amount"] if book_data["Page Amount"] else "Not set."}")
+            pPrinter.typewriter(f"    - Pages Read: {book_data["Pages Read"] if book_data["Pages Read"] else "Not set."}")
+            pPrinter.typewriter(f"    - Finish Data: {book_data["Finish Date"] if book_data["Finish Date"] else "Not set."}")
+
+        options = [
+            "Change Page Amount",
+            "Change Pages Read",
+            "Change Finish Date",
+            "Exit"
+        ]
+        
+        run = True
+        while run:
+            cc()
+
+            display_data()
+
+            print()
+            mPrinter.typewriter("----- Options -----")
+            for i, opt in enumerate(options, start = 1):
+                pPrinter.typewriter(f"{i}. {opt}")
+            print()
+
+            raw_input = mPrinter.inputTypewriter("Select an option")
+
+            if raw_input.isdigit():
+                raw_input = int(raw_input)
+            
+                # Change Page Amount
+                if raw_input == 1:
+                    new_input = pPrinter.inputTypewriter("Enter a new page amount")
+                    book_data["Page Amount"] = new_input
+
+                # Change Pages read
+                elif raw_input == 2:
+                    new_input = pPrinter.inputTypewriter("Enter pages read")
+                    book_data["Pages Read"] = new_input
+
+                # Change Due Date
+                elif raw_input == 3:
+                    new_input = pPrinter.inputTypewriter("Enter a new due date")
+                    book_data["Finish Date"] = new_input
+
+                # Exit
+                elif raw_input == 4:
+                    run = False
+                
+                else:
+                    mPrinter.inputTypewriter("That is not a valid option. Press Enter to continue.", end='')
+
+            else:
+                mPrinter.inputTypewriter("That is not a valid option. Press Enter to continue.", end='')
+
+        return book_data
 
     def view_books(self):
         """View all books and remove (by number list)"""
@@ -57,8 +116,22 @@ class BookManager:
                 else:
                     pass
 
-            raw_input = mPrinter.inputTypewriter("Enter an option")
+            raw_input = mPrinter.inputTypewriter("Input").title()
 
-            # Book_index += 10 for next page
+            if raw_input.isdigit():
+                self.data[int(raw_input) - 1] = self.book_details(self.data[int(raw_input) - 1])
 
-            run = False
+            else:
+                if raw_input.startswith("E"):
+                    run = False
+
+                elif raw_input.startswith("P") and "Type in P for the next page" in options:
+                    book_index += 10
+
+                elif raw_input.startswith("B") and "Type in B for the previous page" in options:
+                    book_index -= 10
+                
+                else:
+                    mPrinter.typewriter("Invalid input...")
+
+            cc()

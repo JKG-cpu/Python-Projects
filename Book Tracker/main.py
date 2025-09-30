@@ -37,7 +37,8 @@ class Main:
                 self.bookManager.create_new_entry(
                     name = data["name"],
                     pages = data["pages"] if "pages" in list(data.keys()) else None,
-                    goal = data["goal"] if "goal" in list(data.keys()) else None
+                    goal = data["goal"] if "goal" in list(data.keys()) else None,
+                    pages_read = data["pagesread"] if "pagesread" in list(data.keys()) else None
                 )
                 run = False
 
