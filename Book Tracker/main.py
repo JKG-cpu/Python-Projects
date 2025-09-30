@@ -42,7 +42,6 @@ class Main:
                 run = False
 
     def view_books(self):
-        # TODO: Add a view_books method to the book manager
         self.bookManager.view_books()
 
     # Main Loop
