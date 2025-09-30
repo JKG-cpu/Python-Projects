@@ -12,9 +12,9 @@ class BookManager:
     def create_new_entry(self, name: str, pages: str | int = None, goal: str = None, pages_read = None):
         new_book = {
             "Book Name": name,
-            "Page Amount": pages,
-            "Finish Date": goal,
-            "Pages Read": pages_read
+            "Page Amount": pages.strip('"') if pages else pages,
+            "Finish Date": goal.strip('"') if goal else goal,
+            "Pages Read": pages_read.strip('"') if pages_read else pages_read
         }
         self.data.append(new_book)
         self.task_loader.save_data(data = self.data)
@@ -34,9 +34,11 @@ class BookManager:
             "Change Page Amount",
             "Change Pages Read",
             "Change Finish Date",
+            "Remove Entry",
             "Exit"
         ]
         
+        delete = False
         run = True
         while run:
             cc()
@@ -71,15 +73,19 @@ class BookManager:
 
                 # Exit
                 elif raw_input == 4:
+                    delete = True
                     run = False
                 
+                elif raw_input == 5:
+                    run = False
+
                 else:
                     mPrinter.inputTypewriter("That is not a valid option. Press Enter to continue.", end='')
 
             else:
                 mPrinter.inputTypewriter("That is not a valid option. Press Enter to continue.", end='')
 
-        return book_data
+        return book_data if not delete else True
 
     def view_books(self):
         """View all books and remove (by number list)"""
@@ -119,7 +125,11 @@ class BookManager:
             raw_input = mPrinter.inputTypewriter("Input").title()
 
             if raw_input.isdigit():
-                self.data[int(raw_input) - 1] = self.book_details(self.data[int(raw_input) - 1])
+                book_data = self.book_details(self.data[int(raw_input) - 1])
+                if isinstance(book_data, bool):
+                    self.data.pop(int(raw_input) - 1)
+                else:
+                    self.data[int(raw_input) - 1] = book_data
 
             else:
                 if raw_input.startswith("E"):
