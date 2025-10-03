@@ -97,6 +97,7 @@ class BookManager:
 
             # Exit if no data
             if not self.data:
+                mPrinter.typewriter("No books saved...")
                 break
 
             # Print Books -> 10 per page
@@ -111,6 +112,7 @@ class BookManager:
             options = [
                 "Type in a number to view a book",
                 "Type in E to exit",
+                "Type in D to delete all books",
                 "Type in P for the next page" if len(self.data) > book_index + 10 else "",
                 "Type in B for the previous page" if book_index >= 10 else ""
             ]
@@ -126,8 +128,9 @@ class BookManager:
 
             if raw_input.isdigit():
                 book_data = self.book_details(self.data[int(raw_input) - 1])
-                if isinstance(book_data, bool):
+                if book_data == True:
                     self.data.pop(int(raw_input) - 1)
+                    self.task_loader.save_data(self.data)
                 else:
                     self.data[int(raw_input) - 1] = book_data
 
@@ -141,6 +144,11 @@ class BookManager:
                 elif raw_input.startswith("B") and "Type in B for the previous page" in options:
                     book_index -= 10
                 
+                elif raw_input.startswith("D"):
+                    self.data = []
+                    self.task_loader.save_data(self.data)
+                    mPrinter.typewriter("All books removed!")
+
                 else:
                     mPrinter.typewriter("Invalid input...")
 
