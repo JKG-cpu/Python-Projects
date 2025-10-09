@@ -1,0 +1,51 @@
+📊 Personal Finance Tracker (Intermediate Python Project)
+
+📌 Description:
+Build a terminal-based application to help users track their income and expenses,
+categorize transactions, set budgets, and visualize financial activity over time.
+This project builds on your experience from the Book Tracker and introduces data
+management, reporting, and optional visualizations.
+
+🔑 Key Features:
+- Add & categorize transactions (income or expense)
+  - Support categories like Food, Rent, Utilities, etc.
+  - Allow notes or tags per transaction
+- View reports:
+  - Monthly summary
+  - Total income vs. expenses
+  - Category-wise breakdown
+  - Savings tracking
+- Set monthly or category-specific budgets
+- Alerts when budgets are exceeded or close to the limit
+- Export transactions to CSV
+
+💾 Data Storage Options:
+- JSON or CSV files (simpler)
+- SQLite or TinyDB (more structured)
+
+📊 Visualizations (Optional):
+- Use matplotlib or plotly to create:
+  - Pie charts of expenses by category
+  - Monthly income/expense bar charts
+
+🧰 Recommended Libraries:
+- pandas – for data manipulation
+- matplotlib/seaborn – for data visualization
+- sqlite3 or TinyDB – for local database storage
+- tabulate or rich – for nice CLI output
+- argparse or click – for command-line interfaces
+
+🚀 Stretch Goals:
+- Build a GUI using Tkinter or PyQt
+- Convert it into a web app using Flask or FastAPI
+- Add login support for multiple users
+- Import bank statements or CSVs from real sources
+- Containerize with Docker or deploy online
+
+🎯 Skills You'll Practice:
+- CRUD operations
+- Working with data files or databases
+- Data visualization
+- Budgeting logic
+- CLI or GUI development
+- Project structure and modular code
