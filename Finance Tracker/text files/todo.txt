@@ -1,0 +1,8 @@
+1. Start setting up project
+    - Create all the files 
+
+2. Start working on base setup in transactions.py
+    - Add, Remove, View transactions
+
+
+
