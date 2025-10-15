@@ -4,4 +4,6 @@ from src import *
 
 data_fp = join("data", "transactions.json")
 
-Transactions(data_fp).add_transaction()
+class Main:
+    def __init__(self):
+        self.data_fp = join("data", "transactions.json")
