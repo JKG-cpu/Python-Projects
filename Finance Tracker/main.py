@@ -14,4 +14,6 @@ class Main:
 
         # Attributes
     
+if __name__ == '__main__':
+    main = Main()
     

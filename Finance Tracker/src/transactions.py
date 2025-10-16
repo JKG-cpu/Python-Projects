@@ -64,46 +64,78 @@ class Transactions:
         """
         
         self.quick_tp.typewriter(
-            '----- Required Inputs ----\n-name "Example"  -amount "123.45"\n----- Not Required -----\n-date "1/1/25"'
+            '----- Required Inputs ----\n-name "Example"  -amount "123.45"\n----- Not Required -----\n-date "1/1/25" -notes "Not going to be monthly"'
         )
         print()
         self.quick_tp.typewriter(
-            'Example:\n    -name Shopping -amount 150\n    -name "Book Store" -amount "50" -date "12/10/24"'
+            'Example:\n    -name Shopping -amount 150 -notes "Need to grab apples"\n    -name "Book Store" -amount "50" -date "12/10/24"'
         )
         self.quick_tp.typewriter("If your transaction name has a space in it, you must use quotation marks.")
         print()
         self.main_tp.inputTypewriter("Press Enter to continue.", end =' ')
 
     def parse_transaction(self, user_input: list[str], currency: str, categories: list) -> bool:
-        # Iterate through each transaction command and see if it starts with -
+        print(user_input)
+        input()
         user_input = iter(user_input)
         data = {}
 
         for item in user_input:
             if item.startswith("-"):
-                next_item = next(user_input)
-                if next_item.startswith('-'):
+                try:
+                    next_item = next(user_input)
+                except StopIteration:
                     return False
-                
-                data[item.strip("-")] = next_item.strip('"')
-        
+
+                if next_item.startswith("-"):
+                    return False
+
+                # Handle quoted strings
+                if next_item.startswith('"'):
+                    full_string = next_item.lstrip('"')
+                    while not next_item.endswith('"'):
+                        try:
+                            next_item = next(user_input)
+                        except StopIteration:
+                            return False  # Unterminated quoted string
+                        full_string += f" {next_item}"
+                    full_string = full_string.rstrip('"')
+                    data[item.lstrip("-")] = full_string
+                else:
+                    data[item.lstrip("-")] = next_item
+
         data_keys = data.keys()
-        if "name" in data_keys and "amount" in data_keys:
-            pass
-        else:
+        if "name" not in data_keys or "amount" not in data_keys:
             return False
 
-        # TODO: Display category options
+        # Category selection
+        selected_cat = "None"
         if categories:
-            pass
+            run = True
+            while run:
+                self.quick_tp.typewriter("----- Category Options -----")
+                self.quick_tp.menuTypewriter(" | ", categories)
+
+                user_input = self.main_tp.inputTypewriter("What category would you like? Or type None for None")
+
+                if user_input.title() in categories:
+                    selected_cat = user_input.title()
+                    run = False
+                elif user_input.title() == "None":
+                    selected_cat = "None"
+                    run = False
+                else:
+                    self.main_tp.typewriter("That is not a valid option for a category...")
+                    self.main_tp.inputTypewriter("Press Enter to continue.", end=' ')
+                    cc()
 
         transaction = {
             "Name": data["name"],
-            "Amount": f"{data["amount"]} {currency}",
-            "Date": data["date"] if "date" in data.keys() else self._get_time()
+            "Amount": f"{data['amount']} {currency}",
+            "Date": data.get("date", self._get_time()),
+            "Notes": data.get("notes", "No Notes provided."),
+            "Category": selected_cat
         }
-        print(transaction)
-        input()
         self.data.append(transaction)
         self._save_data(self.data)
 
@@ -258,3 +290,4 @@ class Transactions:
             
             cc()
     #endregion
+

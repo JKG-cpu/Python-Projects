@@ -8,5 +8,9 @@
     - Setup SettingsConfig.py
     - Use settings for currency
     - Start adding categories (base) => have the user decide category names
+    - Start adding notes to each transaction
 
-
+4. Start working on monthly reports
+    - Income vs Expenses
+    - Monthly Summary (Money spent / saved)
+    
