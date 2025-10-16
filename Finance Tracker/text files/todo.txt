@@ -4,5 +4,9 @@
 2. Start working on base setup in transactions.py
     - Add, Remove, View transactions
 
+3. Work on adding categories for the transactions
+    - Setup SettingsConfig.py
+    - Use settings for currency
+    - Start adding categories (base) => have the user decide category names
 
 

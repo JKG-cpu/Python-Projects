@@ -1,0 +1,11 @@
+{
+  "Currency": "USD",
+  "Currency Options": [
+    "USD",
+    "EUR",
+    "JPY",
+    "GBP",
+    "AUD"
+  ],
+  "Categories": []
+}

@@ -3,14 +3,16 @@ from datetime import date
 from VividText import VividText as vt
 
 from .helper_functions import *
+from .settings_config import SettingsConfig
 
 class Transactions:
     def __init__(self, data_fp: str):
-        # Base Variables
+        # Typewriters
         self.main_tp = vt(bold=True, sleep=.03)
         self.quick_tp = vt(bold=True, sleep=0)
         self.error_tp = vt(color="bright_red", bold=True, sleep=0)
 
+        # Attributes
         self.req_args = ["name", "amount"]
         self.other_args = ["date"]
         self.page_length = 10
@@ -72,7 +74,7 @@ class Transactions:
         print()
         self.main_tp.inputTypewriter("Press Enter to continue.", end =' ')
 
-    def parse_transaction(self, user_input: list[str]) -> bool:
+    def parse_transaction(self, user_input: list[str], currency: str, categories: list) -> bool:
         # Iterate through each transaction command and see if it starts with -
         user_input = iter(user_input)
         data = {}
@@ -91,9 +93,13 @@ class Transactions:
         else:
             return False
 
+        # TODO: Display category options
+        if categories:
+            pass
+
         transaction = {
             "Name": data["name"],
-            "Amount": data["amount"],
+            "Amount": f"{data["amount"]} {currency}",
             "Date": data["date"] if "date" in data.keys() else self._get_time()
         }
         print(transaction)
@@ -116,7 +122,7 @@ class Transactions:
 
     # Transaction Methods
     #region
-    def add_transaction(self) -> None:
+    def add_transaction(self, currency: str, categories: list = None) -> None:
         """Add New Transactions"""
         run = True
         while run:
@@ -133,7 +139,7 @@ class Transactions:
             else:
                 # Start Decoding Input
                 fixed_input = user_input.split()
-                valid = self.parse_transaction(fixed_input)
+                valid = self.parse_transaction(fixed_input, currency, categories)
 
                 if valid:
                     self.main_tp.typewriter("Added Transaction...")
