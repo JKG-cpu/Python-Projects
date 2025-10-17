@@ -14,10 +14,10 @@ class Map:
         }
 
     # New Board
-    def new_board(self, type, x, y, size) -> tuple[list, list]:
-        board, tile_key = self.method_keys[type](x, y, size)
+    def new_board(self, type, x, y, size) -> tuple[list, list, tuple[int, int]]:
+        board, tile_key, player_pos = self.method_keys[type](x, y, size)
 
-        return (board, tile_key)
+        return (board, tile_key, player_pos)
 
     # Board Generate Methods
     def flood_fill(self, max_x, max_y, board, water, size, amount: int = 1):
@@ -60,7 +60,7 @@ class Map:
         return board
 
     # Generate Different Boards
-    def _get_forest_board(self, x, y, size) -> tuple[list, dict]:
+    def _get_forest_board(self, x, y, size) -> tuple[list, dict, tuple]:
         board = self._generate_board(x, y)
         max_x, max_y = x - 1, y - 1
         
@@ -115,13 +115,17 @@ class Map:
                 if col == "":
                     board[i][j] = tiles_tu["Empty"]
 
-        return (board, tile_key)
+        return (board, tile_key, center_board)
 
     # Draw the board
     def display_board(self, board):
+        display_row = '+' + '----' * len(board[0]) + '-+'
+
+        quicktp.typewriter(display_row)
         for row in board:
-            print('|', end='')
+            quicktp.typewriter(' |', end='')
             for col in row:
                 square = col if col != "" else " "
-                print(f" {square} |", end='')
+                quicktp.typewriter(f" {square} |", end='')
             print()
+        quicktp.typewriter(display_row)

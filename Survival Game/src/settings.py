@@ -2,7 +2,7 @@ from VividText import VividText as vt
 
 # Typewriters
 maintp = vt(bold = True, sleep = .03)
-quicktp = vt(bold = True, sleep = 0)
+quicktp = vt(bold = True, sleep = .0)
 errortp = vt(color = "bright_red", bold = True, sleep = 0)
 
 # Variables
