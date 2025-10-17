@@ -13,7 +13,7 @@ board_sizes = {
     "Giant": (20, 20)
 }
 board_size_ratios = {
-    "Small": 2,
+    "Small": 3,
     "Medium": 4,
     "Big": 5,
     "Giant": 7
