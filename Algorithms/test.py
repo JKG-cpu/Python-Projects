@@ -1,2 +1,3 @@
-for i in range(5, -1, -1):
-    print(i)
+x = ["1", "2", "3", "4"]
+y = x[:5]
+print(y)
