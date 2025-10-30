@@ -1,0 +1,4 @@
+vividtext
+rich
+rarfile
+tkinterdnd2
