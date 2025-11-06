@@ -5,6 +5,23 @@ from os import system, name
 def cc():
     system("cls" if name == 'nt' else "clear")
 
+class MiniMax:
+    def __init__(self, team):
+        self.team = team
+
+    def available_moves(self, board: list) -> list:
+        moves = []
+
+        for row in board:
+            for col in row:
+                if isinstance(col, CheckerPiece):
+                    possible_moves = col.get_possible_moves()
+                    if possible_moves:
+                        moves.extend(possible_moves)
+
+    def get_best_move(self):
+        pass
+
 class CheckerPiece:
     def __init__(self, color: str, position: tuple):
         self.color = color

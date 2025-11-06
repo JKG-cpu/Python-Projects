@@ -6,7 +6,6 @@ from os import system, name
 def cc():
     system('cls' if name == 'nt' else 'clear')
 
-
 class MiniMax:
     def __init__(self, ai_symbol: str, player_symbol: str, max_depth: int = 4):
         self.ai = ai_symbol
@@ -137,7 +136,6 @@ class MiniMax:
         else:
             return 0
 
-
 class ConnectFour:
     def __init__(self):
         self.board = [["" for _ in range(7)] for _ in range(6)]
@@ -230,7 +228,6 @@ class ConnectFour:
                     break
 
                 turn = self.player
-
 
 if __name__ == "__main__":
     game = ConnectFour()
