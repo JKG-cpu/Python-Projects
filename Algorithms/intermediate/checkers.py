@@ -1,4 +1,4 @@
-from VividText import VividText as vt
+from VividText import VividText as vt  # type: ignore
 
 class CheckerPiece:
     def __init__(self, position, team, color):
@@ -84,3 +84,5 @@ class Main:
 
     def test(self):
         pass
+
+vt(bold = True, sleep = .03).typewriter("Hello World")
