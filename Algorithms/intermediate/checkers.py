@@ -50,9 +50,6 @@ class CheckerBoard:
     def __init__(self):
         self.console = Console()
         self.console.style = "bold white"
-        # highlight sets:
-        self.forced_starts = set()   # positions of pieces that must jump
-        self.forced_targets = set()  # landing positions (targets) of forced jumps
 
     def _generate_board(self):
         board = []
@@ -79,17 +76,6 @@ class CheckerBoard:
             self.console.print(f"{i} | ", end='')
             for j, col in enumerate(row):
                 coord = (i - 1, j)
-
-                # Highest priority: show forced landing targets as green #
-                if coord in self.forced_targets:
-                    self.console.print("[bright_green]#[/]", end=' | ')
-                    continue
-
-                # Next: show forced-start pieces in yellow (still print piece)
-                if coord in self.forced_starts and isinstance(col, CheckerPiece):
-                    # print the piece but in yellow to indicate it must jump
-                    self.console.print(f"[yellow]{col}[/]", end=' | ')
-                    continue
 
                 # Normal piece rendering
                 if isinstance(col, CheckerPiece):
@@ -142,6 +128,12 @@ class CheckerBoard:
         board[trow][tcol], board[row][col] = piece, None
         piece.reset_position(trow, tcol)
 
+class MiniMax:
+    def __init__(self, team: str, player_team: str, max_depth: int) -> None:
+        self.team = team
+        self.player_team = player_team
+        self.max_depth = max_depth
+
 class InputParser:
     def __init__(self):
         self.vt = vt(bold=True, sleep=0.03)
@@ -160,7 +152,7 @@ class InputParser:
 
     def parse_piece(self):
         while True:
-            user_input = self.vt.inputTypewriter("Enter a move (e.g., b1a2) or type quit: ").lower().strip()
+            user_input = self.vt.inputTypewriter("Enter a move (e.g., b1a2) or type quit").lower().strip()
             if user_input.startswith("q"):
                 return False
             coords = self.convert(user_input)
@@ -182,13 +174,6 @@ class Main:
     def main(self):
         while self.running:
             team_color = "blue" if self.turn == 0 else "red"
-
-            # Compute forced pieces and forced landing targets
-            forced_pieces, forced_targets = self.boardClass.check_force_kill(team_color, self.board)
-
-            # Put highlights into boardClass for display and enforcement
-            self.boardClass.forced_starts = set(p.position for p in forced_pieces) if forced_pieces else set()
-            self.boardClass.forced_targets = forced_targets if forced_targets else set()
 
             # Display board with highlights
             self.boardClass.display_board(self.board)
@@ -216,24 +201,9 @@ class Main:
                 cc()
                 continue
 
-            # If there are forced jumps, ensure the player selects a forced-start piece
-            if self.boardClass.forced_starts and (row, col) not in self.boardClass.forced_starts:
-                self.vt.typewriter("You must jump with one of the highlighted pieces!")
-                cc()
-                continue
-
-            # If there are forced jumps, ensure the destination is a forced-target (i.e., doing a jump)
-            if self.boardClass.forced_targets:
-                if (nrow, ncol) not in self.boardClass.forced_targets:
-                    # It's allowed to move a forced-start piece only if the destination is a forced jump target
-                    self.vt.typewriter("You must move to one of the highlighted capture targets!")
-                    cc()
-                    continue
-
             valid, kill = self.boardClass.check_valid_move(self.board, row, col, nrow, ncol)
             if valid:
                 self.boardClass.move_piece(self.board, row, col, nrow, ncol, kill)
-                # After successful move, switch turn
                 self.turn = 1 - self.turn
             else:
                 self.vt.typewriter("That is not a valid move...")
