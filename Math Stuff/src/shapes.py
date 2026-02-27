@@ -1,3 +1,5 @@
+from .imports import *
+
 class Shape:
     def __init__(self, sides: int | None = None, properties: list[str] | dict[dict] | None = None) -> None:
         # Properties

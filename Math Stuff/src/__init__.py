@@ -1,5 +1,6 @@
-from .geometry_formulas import GeometryFormulas
+from .geometric_formulas import GeometryFormulas
 from .shapes import Shape, Parallelogram, Kite, Triangle, Trapezoid, Rhombuse, Rectangle, Square
+from .graphing import Line, Point
 
 # Just to see whats imported easily
 __all__ = [
@@ -11,5 +12,7 @@ __all__ = [
         "Trapezoid",
         "Rhombuse",
         "Rectangle",
-        "Square"
+        "Square",
+    "Line",
+    "Point"
 ]

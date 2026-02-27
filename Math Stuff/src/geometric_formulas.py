@@ -1,5 +1,4 @@
-import math
-from fractions import Fraction
+from .imports import *
 
 class GeometryFormulas:
     def __init__(self, rounding_number: int = 1) -> None:
@@ -31,7 +30,7 @@ class GeometryFormulas:
         
         return (round(first_point, 1), round(second_point, self.rounding_number))
 
-    def slope(self, coord1: tuple[int, int], coord2: tuple[int, int]) -> str:
+    def slope(self, coord1: tuple[int, int], coord2: tuple[int, int]) -> Fraction | str:
         if not (isinstance(coord1, tuple) and isinstance(coord2, tuple)):
             return "You need to enter in two coordinate points (x, y), (x2, y2)"
 
