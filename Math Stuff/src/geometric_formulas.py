@@ -56,3 +56,19 @@ class GeometryFormulas:
         answer = fline + sline + tline
         
         return round(answer, decimal_point)
+
+    def point_on_circle(self, center: tuple[int, int], radius: int | float, coord: tuple[int, int]) -> bool | str:
+        if not (isinstance(center, tuple) and (isinstance(radius, int) or isinstance(radius, float)) and isinstance(coord, tuple)):
+            return "You must provide valid arguments."
+
+        k, h = -center[0], -center[1]
+        x, y = coord
+        r2 = radius ** 2
+
+        left_side = (x + k) ** 2 + (y + h) ** 2
+        right_side = r2
+
+        if math.isclose(left_side, right_side, rel_tol=1e-9):
+            return True
+    
+        return False
